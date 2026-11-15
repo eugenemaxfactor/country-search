@@ -9,8 +9,19 @@ export async function searchCountries(
   query: string,
   signal: AbortSignal,
 ): Promise<unknown[]> {
-  void query;
-  void signal;
+  const encodedQuery = encodeURIComponent(query);
+  const url = `https://countries.dev/name/${encodedQuery}`;
+  const response = await fetch(url, { signal });
 
-  throw new Error('Not implemented');
+  if (response.status === 404) {
+    return [];
+  }
+
+  if (!response.ok) {
+    throw new HttpError(response.status);
+  }
+
+  const countries = (await response.json()) as unknown[];
+
+  return countries;
 }
