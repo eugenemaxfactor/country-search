@@ -4,7 +4,7 @@ export function debounce<TArguments extends unknown[]>(
 ): (...arguments_: TArguments) => void {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-  return (...arguments_: TArguments): void => {
+  const debouncedCallback = (...arguments_: TArguments): void => {
     if (timeoutId !== undefined) {
       clearTimeout(timeoutId);
     }
@@ -13,4 +13,6 @@ export function debounce<TArguments extends unknown[]>(
       callback(...arguments_);
     }, delay);
   };
+
+  return debouncedCallback;
 }
