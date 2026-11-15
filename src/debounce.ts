@@ -2,8 +2,15 @@ export function debounce<TArguments extends unknown[]>(
   callback: (...arguments_: TArguments) => void,
   delay: number,
 ): (...arguments_: TArguments) => void {
-  void callback;
-  void delay;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-  throw new Error('Not implemented');
+  return (...arguments_: TArguments): void => {
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      callback(...arguments_);
+    }, delay);
+  };
 }
