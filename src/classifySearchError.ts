@@ -1,7 +1,19 @@
+import { HttpError } from './searchCountries';
+
 export type SearchErrorType = 'aborted' | 'timeout' | 'http' | 'unknown';
 
 export function classifySearchError(error: unknown): SearchErrorType {
-  void error;
+  if (error instanceof DOMException && error.name === 'AbortError') {
+    return 'aborted';
+  }
 
-  throw new Error('Not implemented');
+  if (error instanceof DOMException && error.name === 'TimeoutError') {
+    return 'timeout';
+  }
+
+  if (error instanceof HttpError) {
+    return 'http';
+  }
+
+  return 'unknown';
 }
