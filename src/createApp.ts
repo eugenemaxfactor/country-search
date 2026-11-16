@@ -16,8 +16,10 @@ export function createApp(): AppElements {
   const retryButton = document.createElement('button');
   const results = document.createElement('section');
 
+  main.className = 'page';
   heading.textContent = 'Country Search';
 
+  searchGroup.className = 'search';
   searchLabel.htmlFor = 'country-search';
   searchLabel.textContent = 'Search for a country';
 
@@ -27,6 +29,7 @@ export function createApp(): AppElements {
   searchInput.autocomplete = 'off';
 
   status.id = 'search-status';
+  status.dataset.state = 'idle';
   status.setAttribute('aria-live', 'polite');
   status.textContent = 'Enter a country name to start searching.';
 

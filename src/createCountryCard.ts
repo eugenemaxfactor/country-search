@@ -17,6 +17,7 @@ export function createCountryCard(country: Country): HTMLElement {
   const formattedLanguages = country.languages.join(', ') || 'Not available';
   const formattedCurrencies = country.currencies.join(', ') || 'Not available';
 
+  card.className = 'country-card';
   flag.textContent = country.flag;
   name.textContent = country.name;
   description.textContent = `${country.name} is located in ${country.region}. Its capital is ${country.capital}, and its population is ${formattedPopulation}.`;
