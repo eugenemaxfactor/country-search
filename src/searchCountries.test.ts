@@ -4,6 +4,7 @@ import { searchCountries } from './searchCountries';
 
 describe('searchCountries', () => {
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -20,18 +21,31 @@ describe('searchCountries', () => {
     expect(result).toEqual(countries);
   });
 
-  it('passes the encoded query and signal to fetch', async () => {
+  it('combines user cancellation and timeout signals', async () => {
     const response = new Response(JSON.stringify([]), { status: 200 });
     const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(response);
     const controller = new AbortController();
+    const timeoutController = new AbortController();
+    const combinedController = new AbortController();
+    const timeoutSpy = vi
+      .spyOn(AbortSignal, 'timeout')
+      .mockReturnValue(timeoutController.signal);
+    const anySpy = vi
+      .spyOn(AbortSignal, 'any')
+      .mockReturnValue(combinedController.signal);
 
     vi.stubGlobal('fetch', fetchMock);
 
     await searchCountries('united states', controller.signal);
 
+    expect(timeoutSpy).toHaveBeenCalledWith(10_000);
+    expect(anySpy).toHaveBeenCalledWith([
+      controller.signal,
+      timeoutController.signal,
+    ]);
     expect(fetchMock).toHaveBeenCalledWith(
       'https://countries.dev/name/united%20states',
-      { signal: controller.signal },
+      { signal: combinedController.signal },
     );
   });
 
