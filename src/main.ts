@@ -1,4 +1,5 @@
 import { createApp } from './createApp.js';
+import { createCountryCard } from './createCountryCard.js';
 import { createCountrySearchHandler } from './createCountrySearchHandler.js';
 import type { Country } from './mapCountryResponse.js';
 
@@ -20,6 +21,12 @@ const showResults = (countries: Country[]): void => {
   }
 
   app.status.textContent = `Found countries: ${countries.length}.`;
+
+  countries.forEach((country) => {
+    const card = createCountryCard(country);
+
+    app.results.append(card);
+  });
 };
 
 const showError = (): void => {
