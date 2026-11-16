@@ -1,4 +1,4 @@
-import type { RawCountryResponse } from './mapCountryResponse';
+import type { RawCountryResponse } from './mapCountryResponse.js';
 
 const REQUEST_TIMEOUT_MS = 10_000;
 

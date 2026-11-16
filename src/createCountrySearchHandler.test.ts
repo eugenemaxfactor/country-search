@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createCountrySearchHandler } from './createCountrySearchHandler';
+import { createCountrySearchHandler } from './createCountrySearchHandler.js';
 
 describe('createCountrySearchHandler', () => {
   beforeEach(() => {

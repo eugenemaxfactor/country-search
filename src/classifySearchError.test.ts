@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { classifySearchError } from './classifySearchError';
-import { HttpError } from './searchCountries';
+import { classifySearchError } from './classifySearchError.js';
+import { HttpError } from './searchCountries.js';
 
 describe('classifySearchError', () => {
   it('classifies a user cancellation as aborted', () => {

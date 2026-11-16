@@ -1,7 +1,7 @@
-import { classifySearchError } from './classifySearchError';
-import { debounce } from './debounce';
-import { mapCountryResponse, type Country } from './mapCountryResponse';
-import { searchCountries } from './searchCountries';
+import { classifySearchError } from './classifySearchError.js';
+import { debounce } from './debounce.js';
+import { mapCountryResponse, type Country } from './mapCountryResponse.js';
+import { searchCountries } from './searchCountries.js';
 
 export type ResultsHandler = (countries: Country[]) => void;
 export type ErrorHandler = (error: unknown) => void;

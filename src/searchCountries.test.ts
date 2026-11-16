@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { searchCountries } from './searchCountries';
+import { searchCountries } from './searchCountries.js';
 
 describe('searchCountries', () => {
   afterEach(() => {

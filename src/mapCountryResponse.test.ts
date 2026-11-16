@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   mapCountryResponse,
   type RawCountryResponse,
-} from './mapCountryResponse';
+} from './mapCountryResponse.js';
 
 describe('mapCountryResponse', () => {
   it('maps API data to country data used by the application', () => {
