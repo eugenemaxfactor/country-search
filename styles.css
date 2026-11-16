@@ -7,6 +7,7 @@
   --color-text-muted: #aab4be;
   --color-border: #343a40;
   --color-input-border: #3a4046;
+  --color-input-border-hover: #557da8;
   --color-focus: #7ab8ff;
   --color-success: #9ed6ae;
   --color-empty: #e0bd78;
@@ -69,7 +70,15 @@ h1 {
   color: var(--color-text);
 }
 
-.search input:focus-visible,
+.search input:hover {
+  border-color: var(--color-input-border-hover);
+}
+
+.search input:focus-visible {
+  border-color: var(--color-focus);
+  outline: none;
+}
+
 button:focus-visible,
 summary:focus-visible {
   outline: 2px solid var(--color-focus);
