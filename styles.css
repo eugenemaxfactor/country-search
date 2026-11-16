@@ -1,4 +1,20 @@
 :root {
+  --color-background: #111315;
+  --color-surface: #181b1e;
+  --color-input: #1a1d20;
+  --color-text: #eceff1;
+  --color-text-secondary: #c9d0d6;
+  --color-text-muted: #aab4be;
+  --color-border: #343a40;
+  --color-input-border: #3a4046;
+  --color-focus: #7ab8ff;
+  --color-success: #9ed6ae;
+  --color-empty: #e0bd78;
+  --color-error: #ff9b9b;
+  --color-button-background: #22364a;
+  --color-button-border: #557da8;
+  --color-button-text: #f4f7fa;
+
   color-scheme: dark;
   font-family:
     system-ui,
@@ -6,8 +22,8 @@
     BlinkMacSystemFont,
     'Segoe UI',
     sans-serif;
-  background: #111315;
-  color: #eceff1;
+  background: var(--color-background);
+  color: var(--color-text);
 }
 
 * {
@@ -18,7 +34,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #111315;
+  background: var(--color-background);
 }
 
 button,
@@ -47,51 +63,51 @@ h1 {
 .search input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #3a4046;
+  border: 1px solid var(--color-input-border);
   border-radius: 6px;
-  background: #1a1d20;
-  color: #eceff1;
+  background: var(--color-input);
+  color: var(--color-text);
 }
 
 .search input:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 2px solid #7ab8ff;
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
 #search-status {
   min-height: 1.5rem;
   margin: 1rem 0;
-  color: #aab4be;
+  color: var(--color-text-muted);
 }
 
 #search-status[data-state='success'] {
-  color: #9ed6ae;
+  color: var(--color-success);
 }
 
 #search-status[data-state='empty'] {
-  color: #e0bd78;
+  color: var(--color-empty);
 }
 
 #search-status[data-state='error'] {
-  color: #ff9b9b;
+  color: var(--color-error);
 }
 
 button {
   padding: 0.625rem 1rem;
-  border: 1px solid #557da8;
+  border: 1px solid var(--color-button-border);
   border-radius: 6px;
-  background: #22364a;
-  color: #f4f7fa;
+  background: var(--color-button-background);
+  color: var(--color-button-text);
   cursor: pointer;
 }
 
 .country-card {
   margin-top: 0.75rem;
-  border: 1px solid #343a40;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
-  background: #181b1e;
+  background: var(--color-surface);
 }
 
 .country-card summary {
@@ -100,12 +116,12 @@ button {
 }
 
 .country-card[open] summary {
-  border-bottom: 1px solid #343a40;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .country-card p {
   margin: 0.75rem 1rem;
-  color: #c9d0d6;
+  color: var(--color-text-secondary);
 }
 
 .country-card p:last-child {
