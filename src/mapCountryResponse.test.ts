@@ -1,0 +1,73 @@
+import { describe, expect, it } from 'vitest';
+
+import {
+  mapCountryResponse,
+  type RawCountryResponse,
+} from './mapCountryResponse.js';
+
+describe('mapCountryResponse', () => {
+  it('maps API data to country data used by the application', () => {
+    const rawCountry = {
+      name: 'Spain',
+      flag: '🇪🇸',
+      capital: 'Madrid',
+      region: 'Europe',
+      population: 47351567,
+      area: 505990,
+      borders: ['PRT', 'FRA'],
+      currencies: [{ code: 'EUR', name: 'Euro', symbol: '€' }],
+      languages: [{ name: 'Spanish' }, { name: 'Catalan' }],
+    };
+
+    const country = mapCountryResponse(rawCountry);
+
+    expect(country).toEqual({
+      name: 'Spain',
+      flag: '🇪🇸',
+      capital: 'Madrid',
+      region: 'Europe',
+      population: 47351567,
+      area: 505990,
+      borders: ['PRT', 'FRA'],
+      currencies: ['Euro (€)'],
+      languages: ['Spanish', 'Catalan'],
+    });
+  });
+
+  it('returns an empty language list when the API language list is empty', () => {
+    const rawCountry: RawCountryResponse = {
+      name: 'Test Country',
+      flag: '🏳️',
+      capital: 'Test Capital',
+      region: 'Test Region',
+      population: 1000,
+      area: 0,
+      borders: [],
+      currencies: [],
+      languages: [],
+    };
+
+    const country = mapCountryResponse(rawCountry);
+
+    expect(country.languages).toEqual([]);
+  });
+
+  it('does not change the source API object', () => {
+    const rawCountry: RawCountryResponse = {
+      name: 'Spain',
+      flag: '🇪🇸',
+      capital: 'Madrid',
+      region: 'Europe',
+      population: 47351567,
+      area: 505990,
+      borders: ['PRT', 'FRA'],
+      currencies: [{ code: 'EUR', name: 'Euro', symbol: '€' }],
+      languages: [{ name: 'Spanish' }],
+    };
+    const originalCountry = structuredClone(rawCountry);
+
+    mapCountryResponse(rawCountry);
+
+    expect(rawCountry).toEqual(originalCountry);
+  });
+});
