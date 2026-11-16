@@ -1,4 +1,11 @@
-export function createApp(): HTMLElement {
+export interface AppElements {
+  root: HTMLElement;
+  searchInput: HTMLInputElement;
+  status: HTMLParagraphElement;
+  results: HTMLElement;
+}
+
+export function createApp(): AppElements {
   const main = document.createElement('main');
   const heading = document.createElement('h1');
   const searchGroup = document.createElement('div');
@@ -27,5 +34,12 @@ export function createApp(): HTMLElement {
   searchGroup.append(searchLabel, searchInput);
   main.append(heading, searchGroup, status, results);
 
-  return main;
+  const appElements: AppElements = {
+    root: main,
+    searchInput,
+    status,
+    results,
+  };
+
+  return appElements;
 }
