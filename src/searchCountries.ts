@@ -1,3 +1,5 @@
+const REQUEST_TIMEOUT_MS = 10_000;
+
 export class HttpError extends Error {
   public readonly status: number;
 
@@ -15,7 +17,9 @@ export async function searchCountries(
 ): Promise<unknown[]> {
   const encodedQuery = encodeURIComponent(query);
   const url = `https://countries.dev/name/${encodedQuery}`;
-  const response = await fetch(url, { signal });
+  const timeoutSignal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
+  const requestSignal = AbortSignal.any([signal, timeoutSignal]);
+  const response = await fetch(url, { signal: requestSignal });
 
   if (response.status === 404) {
     return [];
