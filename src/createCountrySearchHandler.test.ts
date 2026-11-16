@@ -44,6 +44,9 @@ describe('createCountrySearchHandler', () => {
         capital: 'Madrid',
         region: 'Europe',
         population: 47351567,
+        area: 505990,
+        borders: ['PRT', 'FRA'],
+        currencies: [{ code: 'EUR', name: 'Euro', symbol: '€' }],
         languages: [{ name: 'Spanish' }, { name: 'Catalan' }],
       },
     ];
@@ -70,6 +73,9 @@ describe('createCountrySearchHandler', () => {
         capital: 'Madrid',
         region: 'Europe',
         population: 47351567,
+        area: 505990,
+        borders: ['PRT', 'FRA'],
+        currencies: ['Euro (€)'],
         languages: ['Spanish', 'Catalan'],
       },
     ]);
@@ -196,6 +202,9 @@ describe('createCountrySearchHandler', () => {
         capital: 'Madrid',
         region: 'Europe',
         population: 47351567,
+        area: 505990,
+        borders: ['PRT', 'FRA'],
+        currencies: [{ code: 'EUR', name: 'Euro', symbol: '€' }],
         languages: [{ name: 'Spanish' }],
       },
     ];
@@ -213,6 +222,9 @@ describe('createCountrySearchHandler', () => {
         capital: 'Old capital',
         region: 'Old region',
         population: 1,
+        area: 1,
+        borders: [],
+        currencies: [],
         languages: [{ name: 'Old language' }],
       },
     ];
@@ -232,6 +244,9 @@ describe('createCountrySearchHandler', () => {
         capital: 'Madrid',
         region: 'Europe',
         population: 47351567,
+        area: 505990,
+        borders: ['PRT', 'FRA'],
+        currencies: ['Euro (€)'],
         languages: ['Spanish'],
       },
     ]);

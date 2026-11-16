@@ -41,6 +41,9 @@ describe('mapCountryResponse', () => {
       capital: 'Test Capital',
       region: 'Test Region',
       population: 1000,
+      area: 0,
+      borders: [],
+      currencies: [],
       languages: [],
     };
 
@@ -56,6 +59,9 @@ describe('mapCountryResponse', () => {
       capital: 'Madrid',
       region: 'Europe',
       population: 47351567,
+      area: 505990,
+      borders: ['PRT', 'FRA'],
+      currencies: [{ code: 'EUR', name: 'Euro', symbol: '€' }],
       languages: [{ name: 'Spanish' }],
     };
     const originalCountry = structuredClone(rawCountry);
