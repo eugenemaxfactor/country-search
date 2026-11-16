@@ -21,7 +21,16 @@ export interface Country {
 }
 
 export function mapCountryResponse(rawCountry: RawCountryResponse): Country {
-  void rawCountry;
+  const languages = rawCountry.languages.map((language) => language.name);
 
-  throw new Error('Not implemented');
+  const country: Country = {
+    name: rawCountry.name,
+    flag: rawCountry.flag,
+    capital: rawCountry.capital,
+    region: rawCountry.region,
+    population: rawCountry.population,
+    languages,
+  };
+
+  return country;
 }
