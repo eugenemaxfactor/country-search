@@ -109,4 +109,66 @@ describe('createCountrySearchHandler', () => {
 
     expect(onError).toHaveBeenCalledWith(networkError);
   });
+
+  it('keeps only the latest result when requests finish out of order', async () => {
+    let resolveFirstRequest: (response: Response) => void = () => undefined;
+    let rejectFirstRequest: (reason: unknown) => void = () => undefined;
+    let resolveSecondRequest: (response: Response) => void = () => undefined;
+    let firstRequestSignal: AbortSignal | undefined;
+
+    const firstRequest = new Promise<Response>((resolve, reject) => {
+      resolveFirstRequest = resolve;
+      rejectFirstRequest = reject;
+    });
+    const secondRequest = new Promise<Response>((resolve) => {
+      resolveSecondRequest = resolve;
+    });
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockImplementationOnce((_url, options) => {
+        firstRequestSignal = options?.signal ?? undefined;
+        firstRequestSignal?.addEventListener('abort', () => {
+          rejectFirstRequest(firstRequestSignal?.reason);
+        });
+
+        return firstRequest;
+      })
+      .mockImplementationOnce(() => secondRequest);
+    const onResults = vi.fn();
+    const onError = vi.fn();
+    const handleSearchInput = createCountrySearchHandler(
+      onResults,
+      onError,
+      300,
+    );
+
+    vi.stubGlobal('fetch', fetchMock);
+
+    handleSearchInput('sp');
+    await vi.advanceTimersByTimeAsync(300);
+
+    handleSearchInput('spain');
+    await vi.advanceTimersByTimeAsync(300);
+
+    const latestCountries = [{ name: 'Spain' }];
+    const latestResponse = new Response(JSON.stringify(latestCountries), {
+      status: 200,
+    });
+
+    resolveSecondRequest(latestResponse);
+    await vi.advanceTimersByTimeAsync(0);
+
+    const oldCountries = [{ name: 'Old result' }];
+    const oldResponse = new Response(JSON.stringify(oldCountries), {
+      status: 200,
+    });
+
+    resolveFirstRequest(oldResponse);
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(firstRequestSignal?.aborted).toBe(true);
+    expect(onResults).toHaveBeenCalledOnce();
+    expect(onResults).toHaveBeenCalledWith(latestCountries);
+    expect(onError).not.toHaveBeenCalled();
+  });
 });
