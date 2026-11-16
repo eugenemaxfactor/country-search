@@ -7,6 +7,7 @@ const app = createApp();
 
 const showResults = (countries: Country[]): void => {
   app.results.replaceChildren();
+  app.retryButton.hidden = true;
 
   if (app.searchInput.value.trim() === '') {
     app.status.textContent = 'Enter a country name to start searching.';
@@ -32,6 +33,7 @@ const showResults = (countries: Country[]): void => {
 const showError = (): void => {
   app.results.replaceChildren();
   app.status.textContent = 'Something went wrong. Please try again.';
+  app.retryButton.hidden = false;
 };
 
 const handleSearchInput = createCountrySearchHandler(
@@ -43,6 +45,8 @@ const handleSearchInput = createCountrySearchHandler(
 const handleInput = (): void => {
   const query = app.searchInput.value;
 
+  app.retryButton.hidden = true;
+
   if (query.trim() !== '') {
     app.status.textContent = 'Searching…';
   }
@@ -50,5 +54,18 @@ const handleInput = (): void => {
   handleSearchInput(query);
 };
 
+const retrySearch = (): void => {
+  const query = app.searchInput.value;
+
+  if (query.trim() === '') {
+    return;
+  }
+
+  app.retryButton.hidden = true;
+  app.status.textContent = 'Searching…';
+  handleSearchInput(query);
+};
+
 app.searchInput.addEventListener('input', handleInput);
+app.retryButton.addEventListener('click', retrySearch);
 document.body.append(app.root);

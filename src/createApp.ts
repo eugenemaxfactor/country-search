@@ -2,6 +2,7 @@ export interface AppElements {
   root: HTMLElement;
   searchInput: HTMLInputElement;
   status: HTMLParagraphElement;
+  retryButton: HTMLButtonElement;
   results: HTMLElement;
 }
 
@@ -12,6 +13,7 @@ export function createApp(): AppElements {
   const searchLabel = document.createElement('label');
   const searchInput = document.createElement('input');
   const status = document.createElement('p');
+  const retryButton = document.createElement('button');
   const results = document.createElement('section');
 
   heading.textContent = 'Country Search';
@@ -28,16 +30,21 @@ export function createApp(): AppElements {
   status.setAttribute('aria-live', 'polite');
   status.textContent = 'Enter a country name to start searching.';
 
+  retryButton.type = 'button';
+  retryButton.textContent = 'Retry';
+  retryButton.hidden = true;
+
   results.id = 'search-results';
   results.setAttribute('aria-label', 'Search results');
 
   searchGroup.append(searchLabel, searchInput);
-  main.append(heading, searchGroup, status, results);
+  main.append(heading, searchGroup, status, retryButton, results);
 
   const appElements: AppElements = {
     root: main,
     searchInput,
     status,
+    retryButton,
     results,
   };
 
