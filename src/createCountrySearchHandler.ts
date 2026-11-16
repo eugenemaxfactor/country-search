@@ -1,8 +1,9 @@
 import { classifySearchError } from './classifySearchError';
 import { debounce } from './debounce';
+import { mapCountryResponse, type Country } from './mapCountryResponse';
 import { searchCountries } from './searchCountries';
 
-export type ResultsHandler = (countries: unknown[]) => void;
+export type ResultsHandler = (countries: Country[]) => void;
 export type ErrorHandler = (error: unknown) => void;
 
 export function createCountrySearchHandler(
@@ -21,7 +22,12 @@ export function createCountrySearchHandler(
     activeController = controller;
 
     try {
-      const countries = await searchCountries(query, controller.signal);
+      const rawCountries = await searchCountries(query, controller.signal);
+      const countries = rawCountries.map((rawCountry) => {
+        const country = mapCountryResponse(rawCountry);
+
+        return country;
+      });
 
       onResults(countries);
     } catch (error) {

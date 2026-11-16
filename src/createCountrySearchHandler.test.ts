@@ -189,16 +189,34 @@ describe('createCountrySearchHandler', () => {
     handleSearchInput('spain');
     await vi.advanceTimersByTimeAsync(300);
 
-    const latestCountries = [{ name: 'Spain' }];
-    const latestResponse = new Response(JSON.stringify(latestCountries), {
+    const latestRawCountries = [
+      {
+        name: 'Spain',
+        flag: '🇪🇸',
+        capital: 'Madrid',
+        region: 'Europe',
+        population: 47351567,
+        languages: [{ name: 'Spanish' }],
+      },
+    ];
+    const latestResponse = new Response(JSON.stringify(latestRawCountries), {
       status: 200,
     });
 
     resolveSecondRequest(latestResponse);
     await vi.advanceTimersByTimeAsync(0);
 
-    const oldCountries = [{ name: 'Old result' }];
-    const oldResponse = new Response(JSON.stringify(oldCountries), {
+    const oldRawCountries = [
+      {
+        name: 'Old result',
+        flag: '🏳️',
+        capital: 'Old capital',
+        region: 'Old region',
+        population: 1,
+        languages: [{ name: 'Old language' }],
+      },
+    ];
+    const oldResponse = new Response(JSON.stringify(oldRawCountries), {
       status: 200,
     });
 
@@ -207,7 +225,16 @@ describe('createCountrySearchHandler', () => {
 
     expect(firstRequestSignal?.aborted).toBe(true);
     expect(onResults).toHaveBeenCalledOnce();
-    expect(onResults).toHaveBeenCalledWith(latestCountries);
+    expect(onResults).toHaveBeenCalledWith([
+      {
+        name: 'Spain',
+        flag: '🇪🇸',
+        capital: 'Madrid',
+        region: 'Europe',
+        population: 47351567,
+        languages: ['Spanish'],
+      },
+    ]);
     expect(onError).not.toHaveBeenCalled();
   });
 });

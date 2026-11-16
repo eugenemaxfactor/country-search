@@ -1,3 +1,5 @@
+import type { RawCountryResponse } from './mapCountryResponse';
+
 const REQUEST_TIMEOUT_MS = 10_000;
 
 export class HttpError extends Error {
@@ -14,7 +16,7 @@ export class HttpError extends Error {
 export async function searchCountries(
   query: string,
   signal: AbortSignal,
-): Promise<unknown[]> {
+): Promise<RawCountryResponse[]> {
   const encodedQuery = encodeURIComponent(query);
   const url = `https://countries.dev/name/${encodedQuery}`;
   const timeoutSignal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
@@ -29,7 +31,7 @@ export async function searchCountries(
     throw new HttpError(response.status);
   }
 
-  const countries = (await response.json()) as unknown[];
+  const countries = (await response.json()) as RawCountryResponse[];
 
   return countries;
 }
