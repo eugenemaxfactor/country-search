@@ -7,12 +7,15 @@ import {
 
 describe('mapCountryResponse', () => {
   it('maps API data to country data used by the application', () => {
-    const rawCountry: RawCountryResponse = {
+    const rawCountry = {
       name: 'Spain',
       flag: '🇪🇸',
       capital: 'Madrid',
       region: 'Europe',
       population: 47351567,
+      area: 505990,
+      borders: ['PRT', 'FRA'],
+      currencies: [{ code: 'EUR', name: 'Euro', symbol: '€' }],
       languages: [{ name: 'Spanish' }, { name: 'Catalan' }],
     };
 
@@ -24,6 +27,9 @@ describe('mapCountryResponse', () => {
       capital: 'Madrid',
       region: 'Europe',
       population: 47351567,
+      area: 505990,
+      borders: ['PRT', 'FRA'],
+      currencies: ['Euro (€)'],
       languages: ['Spanish', 'Catalan'],
     });
   });
