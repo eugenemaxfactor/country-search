@@ -36,6 +36,45 @@ describe('createCountrySearchHandler', () => {
     expect(fetchMock).toHaveBeenCalledOnce();
   });
 
+  it('maps API countries before passing them to the results handler', async () => {
+    const rawCountries = [
+      {
+        name: 'Spain',
+        flag: '🇪🇸',
+        capital: 'Madrid',
+        region: 'Europe',
+        population: 47351567,
+        languages: [{ name: 'Spanish' }, { name: 'Catalan' }],
+      },
+    ];
+    const response = new Response(JSON.stringify(rawCountries), {
+      status: 200,
+    });
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(response);
+    const onResults = vi.fn();
+    const handleSearchInput = createCountrySearchHandler(
+      onResults,
+      vi.fn(),
+      300,
+    );
+
+    vi.stubGlobal('fetch', fetchMock);
+
+    handleSearchInput('spain');
+    await vi.advanceTimersByTimeAsync(300);
+
+    expect(onResults).toHaveBeenCalledWith([
+      {
+        name: 'Spain',
+        flag: '🇪🇸',
+        capital: 'Madrid',
+        region: 'Europe',
+        population: 47351567,
+        languages: ['Spanish', 'Catalan'],
+      },
+    ]);
+  });
+
   it('aborts the active request immediately after new input', async () => {
     let requestSignal: AbortSignal | undefined;
     const fetchMock = vi
